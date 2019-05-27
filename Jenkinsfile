@@ -1,44 +1,47 @@
 pipeline {
     agent any
-            stages {
-                    stage('One') {
-                        steps {
-                            echo "Welocme to Cloudnloud technologies"
+    stages {
+        stage('One') {
+                steps {
+                      echo 'Welcome to cloudnloud technologies'
+			
+                }
+        }
+	    stage('Two'){
+		    
+		steps {
+			input('Do you want to proceed?')
+        }
+	    }
+        stage('Three') {
+                when {
+                        not {
+                                branch "master"
                         }
-                    }
-                    stage('Two') {
-                        steps {
-                                input('Please confirm to proceed')
+                }
+                steps {
+			echo "Hello"
                         }
-                    }
-                    stage('Three') {
-                           when {
-                                    not {
-                                        branch 'master'
-                                    }
-                           }
-                           steps {
-                                    echo "Let dig ore in pipeline"
-                           }
-                    stage('Four') {
-                                    parallel {
-                                        stage('Unit test') {
-                                                            steps {
-                                                                echo "Running the unit test"
-                                                            }
+        }
+        stage('Four') {
+                parallel {
+                        stage('Unit Test') {
+                                steps{
+                                        echo "Running the unit test..."
+                                }
+                        }
+                        stage('Integration test') {
+                        agent {
+                                docker {
+                                        reuseNode false
+					image 'ubuntu'
                                         }
-                                        stage('Integration test') {
-                                                            agent {
-                                                                    docker {
-                                                                         reuseNode false
-                                                                         image 'centos'
-                                                                    }
-                                                            }
-                                                            steps {
-                                                                echo 'Running the integration testimg'
-                                                            }
-                                        }
-                                    }
-                    }
-            }
+			}
+				steps {
+					echo 'Running the integration test..'
+				}
+                               
+			}  }
+        }
+    }
 }
