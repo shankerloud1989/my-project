@@ -51,7 +51,8 @@ pipeline {
         						recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
 
 						 )
-				}
-        }
+					}
+			}
+	        }
     }
 }
