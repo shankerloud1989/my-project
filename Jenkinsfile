@@ -36,6 +36,21 @@ pipeline {
 				}
                                
 			}  }
+			post {
+        			always {
+            				emailext (
+               					 subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                				 body: """
+
+						 STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':
+
+
+
+						 Check console output at "${env.JOB_NAME} [${env.BUILD_NUMBER}]"
+						 """,
+        						recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+
+						 )
         }
     }
 }
